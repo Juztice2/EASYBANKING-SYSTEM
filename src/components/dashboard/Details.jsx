@@ -65,6 +65,7 @@ export default function Details() {
       <p>First Name: {details.Firstname}</p>
       <p>Last Name: {details.Lastname}</p>
       <p>Email: {details.email}</p>
+      <p>Amount : {details.amount}</p>
     </div>
   );
 }

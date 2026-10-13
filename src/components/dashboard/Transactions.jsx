@@ -38,7 +38,7 @@ export default function Transactions() {
   ];
 
   return (
-    <div className="bg-white border border-slate-200 rounded-3xl p-6">
+    <div className="bg-white border border-slate-200 rounded-3xl p-6 font-poppins">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-lg font-bold text-slate-900">
           Recent Transactions

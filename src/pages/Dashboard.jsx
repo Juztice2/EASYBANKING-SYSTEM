@@ -11,6 +11,7 @@ import BalanceCard from "../components/dashboard/BalanceCard";
 import QuickActions from "../components/dashboard/QuickActions";
 import Transactions from "../components/dashboard/Transactions";
 import SpendingChart from "../components/dashboard/SpendingChart";
+import Details from "../components/dashboard/Details";
 
 export default function Dashboard() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -24,7 +25,7 @@ export default function Dashboard() {
 
       <main className="flex-1 min-w-0">
         {/* Header */}
-        <header className="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-5 md:px-8">
+        <header className="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-5 sticky z-50 top-0 md:px-8">
           <button
             onClick={() => setMobileOpen(true)}
             className="lg:hidden text-slate-600"
@@ -32,8 +33,8 @@ export default function Dashboard() {
             <Menu size={24} />
           </button>
 
-          <div className="hidden md:block">
-            <p className="text-sm text-slate-400">
+          <div className="hidden md:block font-poppins">
+            <p className="text-sm text-slate-400 ">
               Welcome back
             </p>
 
@@ -58,7 +59,7 @@ export default function Dashboard() {
                 WJ
               </div>
 
-              <div className="hidden md:block">
+              <div className="hidden md:block font-poppins">
                 <p className="text-sm font-semibold text-slate-800">
                   William Justice
                 </p>
@@ -110,6 +111,9 @@ export default function Dashboard() {
           {/* Transactions */}
           <div className="mt-8">
             <Transactions />
+          </div>
+          <div className="mt-8">
+            <Details />
           </div>
         </div>
       </main>

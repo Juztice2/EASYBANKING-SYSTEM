@@ -8,8 +8,11 @@ import {
   LogOut,
   X,
 } from "lucide-react";
-
+import { auth } from "../../firebase";
+import { signOut } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
 export default function Sidebar({ mobileOpen, setMobileOpen }) {
+   const navigate = useNavigate();
   const menuItems = [
     {
       label: "Dashboard",
@@ -37,6 +40,16 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
       icon: Settings,
     },
   ];
+   const logOut = async() => { 
+      try { 
+      await signOut(auth);
+      alert('Signout succesfull')
+      // Temporary demo navigation
+    navigate("/");
+    } catch (error) {
+    
+    } 
+  }
 
   return (
     <>
@@ -122,7 +135,8 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
 
         {/* Logout */}
         <div className="p-4 border-t border-slate-100">
-          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600 transition">
+          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600 transition"
+          onClick ={logOut}>
             <LogOut size={19} />
             Logout
           </button>

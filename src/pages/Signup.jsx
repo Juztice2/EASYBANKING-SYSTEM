@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { auth, db, googleProvider } from "../firebase";
+import { createUserWithEmailAndPassword, signInWithPopup, signOut} from "firebase/auth";
+import { getDoc, collection , addDoc} from "firebase/firestore";
 import {
   ArrowLeft,
   Eye,
@@ -7,14 +10,23 @@ import {
   LockKeyhole,
   Mail,
   UserRound,
+
 } from "lucide-react";
 
+export const accountDetailsCollection = collection(db, "Account")
 export default function Signup() {
   const navigate = useNavigate();
-
+  const [email, SetEmail] = useState("");
+  const [password, SetPassword] = useState("");
+  const [firstName, SetFirstName] = useState("");
+  const [lastName, SetLastName] = useState("");
+  const [confirmPassword, SetConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+ 
 
-  const [formData, setFormData] = useState({
+ /* const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
@@ -27,20 +39,39 @@ export default function Signup() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  }*/
+  const handleSubmit = async(e) => { 
+    e.preventDefault();
+      try { 
+        setLoading(true);
+        setError("")
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user; 
+      /* Save the user's details in Firestore*/
+       await addDoc(accountDetailsCollection, { 
+        uid: user.uid, 
+        Firstname: firstName, 
+        Lastname: lastName,
+         email: user.email, });
+      // Temporary demo navigation
+    navigate("/dashboard");
+    } catch (error) {
+  setError(error.message);
+  setLoading(false)
+    } 
   }
 
-  function handleSubmit(e) {
+    const signInWithGoogle = async(e) => { 
     e.preventDefault();
-
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
-
-    console.log("Signup data:", formData);
-
-    // Temporary demo navigation
+  setError("");
+      try { 
+        setLoading(true);
+      await signInWithPopup(auth, googleProvider);
+      // Temporary demo navigation
     navigate("/dashboard");
+    } catch (error) {
+  setError(error.message);
+    } 
   }
 
   return (
@@ -69,18 +100,18 @@ export default function Signup() {
 
           <div className="max-w-lg">
 
-            <p className="text-blue-300 uppercase tracking-[0.2em] text-sm font-semibold">
+            <p className="text-blue-300 uppercase tracking-[0.2em] text-sm font-semibold font-poppins">
               Start banking smarter
             </p>
 
-            <h1 className="text-5xl font-bold leading-tight mt-4">
+            <h1 className="text-5xl font-bold leading-tight mt-4 font-poppins">
               Your financial
               <span className="block text-blue-400">
                 journey starts here.
               </span>
             </h1>
 
-            <p className="text-blue-100 mt-6 leading-relaxed">
+            <p className="text-blue-100 mt-6 leading-relaxed ">
               Create your account in minutes and experience
               simpler, smarter and more secure banking.
             </p>
@@ -106,12 +137,12 @@ export default function Signup() {
 
               <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white">
                 <span className="text-xl font-bold">
-                  N
+                  E
                 </span>
               </div>
 
               <span className="text-xl font-bold text-slate-900">
-                NOVABANK
+                EASYBANK
               </span>
 
             </Link>
@@ -128,21 +159,20 @@ export default function Signup() {
 
           <div className="mt-8">
 
-            <h2 className="text-3xl font-bold text-slate-900">
+            <h2 className="text-3xl font-bold text-slate-900 font-poppins">
               Create your account
             </h2>
 
             <p className="text-slate-500 mt-2">
-              Join NOVABANK and take control of your finances.
+              Join EASYBANK and take control of your finances.
             </p>
 
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="mt-7 space-y-5"
+          <form onSubmit={handleSubmit}
+            className="mt-7 space-y-5 font-poppins"
           >
-
+           {error && <p className="text-red-500">{error}</p>}
             {/* Names */}
             <div className="grid sm:grid-cols-2 gap-4">
 
@@ -162,9 +192,8 @@ export default function Signup() {
                   <input
                     type="text"
                     name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
                     placeholder="William"
+                    onChange={(e) => SetFirstName(e.target.value)}
                     required
                     className="w-full h-14 pl-11 pr-4 rounded-2xl border border-slate-200 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                   />
@@ -182,9 +211,8 @@ export default function Signup() {
                 <input
                   type="text"
                   name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
                   placeholder="Justice"
+                  onChange={(e) => SetLastName(e.target.value)}
                   required
                   className="w-full h-14 px-4 rounded-2xl border border-slate-200 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                 />
@@ -210,8 +238,7 @@ export default function Signup() {
                 <input
                   type="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
+                  onChange={(e) =>SetEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
                   className="w-full h-14 pl-11 pr-4 rounded-2xl border border-slate-200 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
@@ -238,9 +265,8 @@ export default function Signup() {
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  value={formData.password}
-                  onChange={handleChange}
                   placeholder="Create a password"
+                  onChange={(e) => SetPassword(e.target.value)}
                   minLength={6}
                   required
                   className="w-full h-14 pl-11 pr-12 rounded-2xl border border-slate-200 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
@@ -274,8 +300,6 @@ export default function Signup() {
               <input
                 type={showPassword ? "text" : "password"}
                 name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
                 placeholder="Confirm your password"
                 required
                 className="w-full h-14 px-4 rounded-2xl border border-slate-200 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
@@ -306,11 +330,12 @@ export default function Signup() {
             </label>
 
             {/* Submit */}
-            <button
+            <button 
               type="submit"
+              disabled ={loading}
               className="w-full h-14 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition hover:-translate-y-0.5 shadow-lg shadow-blue-600/20"
             >
-              Create Account
+             {loading ? "Creating Account..." : "Create Account"}
             </button>
 
           </form>
@@ -327,10 +352,13 @@ export default function Signup() {
             </Link>
 
           </p>
-
+          <div className="justify-self-center mt-3 font-poppins p-3 px-4">
+            <p>Sign In with</p>
+            <button onClick={signInWithGoogle} className="text-2xl">
+              <span className="text-red-600">G</span>mail</button>
+          </div>
         </div>
       </div>
-
     </div>
   );
 }

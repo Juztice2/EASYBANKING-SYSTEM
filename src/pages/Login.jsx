@@ -7,13 +7,18 @@ import {
   LockKeyhole,
   Mail,
 } from "lucide-react";
-
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 export default function Login() {
   const navigate = useNavigate();
-
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('')
+   const [loading, setLoading] = useState(false);
+   const [msg, setMsg] = useState('')
 
-  const [formData, setFormData] = useState({
+  /*const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
@@ -23,16 +28,21 @@ export default function Login() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  }*/
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  if(!email || !password){
+   return setMsg("Please provide your details")
+  };
+  try{
+    await signInWithEmailAndPassword(auth, email, password);
+    navigate('/dashboard')
+  }catch (error){
+  setMsg(error.message)
+    setLoading(false)
   }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    console.log("Login data:", formData);
-
-    // Temporary demo navigation
-    navigate("/dashboard");
-  }
+ }
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
@@ -123,7 +133,7 @@ export default function Login() {
 
           <div className="mt-10">
 
-            <h2 className="text-3xl font-bold text-slate-900">
+            <h2 className="text-3xl font-bold text-slate-900 font-poppins">
               Welcome back
             </h2>
 
@@ -136,12 +146,12 @@ export default function Login() {
           {/* Form */}
           <form
             onSubmit={handleSubmit}
-            className="mt-8 space-y-5"
+            className="mt-8 space-y-5 font-poppins"
           >
-
+            <p className="text-red-500">{msg}</p>
             {/* Email */}
             <div>
-
+             <p className="text-red-600">{error}</p>
               <label className="block text-sm font-semibold text-slate-700 mb-2">
                 Email address
               </label>
@@ -156,8 +166,7 @@ export default function Login() {
                 <input
                   type="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
                   className="
@@ -208,8 +217,7 @@ export default function Login() {
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  value={formData.password}
-                  onChange={handleChange}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   required
                   className="
@@ -261,7 +269,7 @@ export default function Login() {
             </div>
 
             {/* Submit */}
-            <button
+            <button onClick={handleSubmit}
               type="submit"
               className="
                 w-full
@@ -277,17 +285,17 @@ export default function Login() {
                 shadow-blue-600/20
               "
             >
-              Sign In
+            {loading ? 'Signing In': 'Log In'}
             </button>
 
           </form>
 
           {/* Signup */}
-          <p className="text-center text-sm text-slate-500 mt-8">
+          <p className="text-center text-sm text-slate-500 mt-8 ">
             Don't have an account?{" "}
             <Link
               to="/signup"
-              className="text-blue-600 font-semibold hover:text-blue-800"
+              className="text-blue-600 font-poppins font-semibold hover:text-blue-800"
             >
               Create one
             </Link>

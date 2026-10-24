@@ -12,10 +12,33 @@ import QuickActions from "../components/dashboard/QuickActions";
 import Transactions from "../components/dashboard/Transactions";
 import SpendingChart from "../components/dashboard/SpendingChart";
 import { useAuth } from "../context/AuthContext";
+import PageLoader from "../components/PageLoader";
 
 export default function Dashboard() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const{details} = useAuth()
+   const {
+    currentUser,
+    details,
+    authLoading,
+    detailsLoading,
+  } = useAuth();
+
+  if (authLoading || detailsLoading) {
+    return <PageLoader />;
+  }
+
+  if (!currentUser) {
+    return null;
+  }
+
+  if (!details) {
+    return (
+      <div className="p-6 text-center text-red-600">
+        Unable to load your account details.
+        Please try again.
+      </div>
+    );
+  }
   
   return (
     <div className="min-h-screen bg-slate-50 flex font-poppins">

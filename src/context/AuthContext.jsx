@@ -1,4 +1,3 @@
-
 import {
   createContext,
   useContext,
@@ -30,15 +29,25 @@ export function AuthProvider({ children }) {
   const [authLoading, setAuthLoading] = useState(true);
   const [detailsLoading, setDetailsLoading] = useState(false);
 
+  // Monitor Firebase authentication
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-      setAuthLoading(false);
-    });
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        setCurrentUser(user);
+        setAuthLoading(false);
+      },
+      (err) => {
+        console.error("Authentication error:", err);
+        setError("Unable to verify authentication.");
+        setAuthLoading(false);
+      }
+    );
 
     return unsubscribe;
   }, []);
 
+  // Fetch the authenticated user's account details
   useEffect(() => {
     if (authLoading) return;
 
@@ -53,9 +62,9 @@ export function AuthProvider({ children }) {
         return;
       }
 
-      try {
-        setDetailsLoading(true);
+      setDetailsLoading(true);
 
+      try {
         const userQuery = query(
           accountDetailsCollection,
           where("uid", "==", currentUser.uid),
@@ -66,15 +75,17 @@ export function AuthProvider({ children }) {
 
         if (cancelled) return;
 
-       if (!snapshot.empty) {
-  const accountDoc = snapshot.docs[0];
+        if (!snapshot.empty) {
+          const accountDoc = snapshot.docs[0];
 
-  setDetails({
-    id: accountDoc.id,
-    ...accountDoc.data(),
-  });
+          setDetails({
+            id: accountDoc.id,
+            ...accountDoc.data(),
+          });
         } else {
-          setError(<p className="text-red-600 font-poppins">Unable to retrieve user details..check network connection</p>);
+          setError(
+            "Unable to retrieve user details. Please check your account or network connection."
+          );
         }
       } catch (err) {
         if (!cancelled) {
@@ -99,6 +110,8 @@ export function AuthProvider({ children }) {
     currentUser,
     details,
     error,
+    authLoading,
+    detailsLoading,
     loading: authLoading || detailsLoading,
   };
 

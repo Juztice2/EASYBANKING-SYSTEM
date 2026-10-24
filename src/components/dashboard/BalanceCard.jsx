@@ -63,7 +63,7 @@ export default function BalanceCard() {
             </p>
 
             <p className="font-medium mt-1">
-              **** **** 4829
+              {details?.accNo}
             </p>
           </div>
 

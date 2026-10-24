@@ -85,7 +85,7 @@ console.log("Firestore document ID:", accountDoc.id);
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-slate-50 flex font-poppins">
 
       {/* LEFT */}
       <div className="hidden lg:flex lg:w-[45%] bg-gradient-to-br from-[#061936] via-[#0b2d68] to-[#1557c7] text-white relative overflow-hidden">

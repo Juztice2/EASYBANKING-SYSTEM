@@ -45,7 +45,7 @@ export default function Login() {
  }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-slate-50 flex font-poppins">
 
       {/* LEFT SIDE */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#061936] via-[#0b2d68] to-[#1557c7] text-white relative overflow-hidden">
@@ -60,12 +60,12 @@ export default function Login() {
 
             <div className="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center">
               <span className="text-xl font-bold">
-                N
+                
               </span>
             </div>
 
             <span className="text-xl font-bold">
-              NOVABANK
+              EASYBANK
             </span>
 
           </Link>

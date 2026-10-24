@@ -10,13 +10,14 @@ import SendMoney from "./pages/SendMoney";
 import ReceiveMoney from "./pages/RecieveMoney";
 import MyCards from "./pages/MyCards";
 import Settings from "./pages/Settings";
+import PageLoader from "./components/PageLoader";
 
 function App() {
   const {loading, currentUser} = useAuth();
 if(loading){
  return(
   <div>
-     <p className="justify-self-center text-3xl text-green-600 font-poppins mt-32">Loading...</p>
+     <PageLoader />
      
   </div>
  ) 

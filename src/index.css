@@ -12,3 +12,28 @@ body {
   overflow-x: hidden;
   font-family: 'Courier New', Courier, monospace;
 }
+
+@keyframes shine {
+  0% {
+    transform: translateX(-120px) rotate(12deg);
+  }
+
+  100% {
+    transform: translateX(180px) rotate(12deg);
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  50% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(250%);
+  }
+}
+

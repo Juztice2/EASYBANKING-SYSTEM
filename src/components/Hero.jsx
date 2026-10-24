@@ -115,7 +115,7 @@ export default function Hero() {
 
               <div className="flex justify-between items-start">
                 <span className="font-bold tracking-wider">
-                  NOVABANK
+                  EASYBANK
                 </span>
 
                 <span className="text-2xl">◈</span>
@@ -135,7 +135,7 @@ export default function Hero() {
                     CARD HOLDER
                   </p>
                   <p className="text-sm font-medium">
-                    WILLIAM JUSTICE
+                    ********
                   </p>
                 </div>
 
@@ -183,7 +183,7 @@ export default function Hero() {
                     </p>
 
                     <p className="text-2xl font-bold mt-1">
-                      ₦1,240,500
+                      $1,240,500
                     </p>
 
                     <p className="text-xs mt-2 text-green-200">
@@ -210,7 +210,7 @@ export default function Hero() {
 
                     <div>
                       <div className="w-10 h-10 mx-auto rounded-xl bg-blue-50 flex items-center justify-center">
-                        ₦
+                        $
                       </div>
                       <p className="text-[10px] mt-2">
                         Bills
@@ -271,14 +271,14 @@ export default function Hero() {
                       </div>
 
                       <p className="text-xs text-green-600 font-semibold">
-                        +₦450,000
+                        +$450,000
                       </p>
                     </div>
 
                     <div className="flex justify-between items-center">
                       <div className="flex gap-3 items-center">
                         <div className="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center">
-                          N
+                          $
                         </div>
 
                         <div>
@@ -292,7 +292,7 @@ export default function Hero() {
                       </div>
 
                       <p className="text-xs text-red-500 font-semibold">
-                        -₦12,500
+                        -$12,500
                       </p>
                     </div>
 
@@ -313,7 +313,7 @@ export default function Hero() {
                       </div>
 
                       <p className="text-xs text-red-500 font-semibold">
-                        -₦24,500
+                        -$24,500
                       </p>
                     </div>
 

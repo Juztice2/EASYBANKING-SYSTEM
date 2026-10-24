@@ -104,7 +104,7 @@ export default function ReceiveMoney() {
       </div>
 
       {/* Balance card */}
-      <section className="relative mb-8 overflow-hidden rounded-3xl bg-gradient-to-br from-green-700 via-green-600 to-emerald-500 p-6 text-white shadow-lg sm:p-8">
+      <section className="relative mb-8 overflow-hidden rounded-3xl bg-gradient-to-br from-blue-700 via-blue-600 to-emerald-500 p-6 text-white shadow-lg sm:p-8">
         <div className="pointer-events-none absolute -right-10 -top-16 h-52 w-52 rounded-full border-[28px] border-white/10" />
         <div className="pointer-events-none absolute -bottom-20 right-24 h-40 w-40 rounded-full bg-white/5" />
 

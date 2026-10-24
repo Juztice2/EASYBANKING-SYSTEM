@@ -44,6 +44,8 @@ export default function QuickActions() {
              navigate("/send-money");
         }else if (action.title === "Receive Money") {
              navigate("/receive-money");
+        }else if (action.title === "My Cards") {
+             navigate("/my-cards");
         }
   }}
   className="bg-white border border-slate-200 rounded-2xl p-5 text-left hover:border-blue-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"

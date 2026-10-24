@@ -8,6 +8,8 @@ import { useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./context/ProtectedRoute";
 import SendMoney from "./pages/SendMoney";
 import ReceiveMoney from "./pages/RecieveMoney";
+import MyCards from "./pages/MyCards";
+import Settings from "./pages/Settings";
 
 function App() {
   const {loading, currentUser} = useAuth();
@@ -48,6 +50,8 @@ if(loading){
     <Route path="/dashboard" element={<Dashboard />} />
     <Route path="/send-money" element={<SendMoney />} />
     <Route path="/receive-money" element={<ReceiveMoney />} />
+    <Route path="/my-cards" element={<MyCards />} />
+    <Route path="/settings" element={<Settings />} />
   </Route>
 
   {/* Unknown Routes */}

@@ -78,11 +78,11 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
         <div className="h-20 px-7 flex items-center justify-between border-b border-slate-100">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg">
-              N
+              E
             </div>
 
             <span className="font-bold text-xl tracking-tight text-slate-900">
-              NOVABANK
+              EASYBANK
             </span>
           </div>
 
@@ -103,10 +103,23 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
           <div className="space-y-1">
             {menuItems.map((item) => {
               const Icon = item.icon;
-
+              
               return (
                 <button
                   key={item.label}
+                     onClick={() => {
+              if (item.label === "Cards") {
+             navigate("/my-cards");
+        }else if (item.label === "Transfers") {
+             navigate("/send-money");
+        }else if(item.label === "Accounts"){
+          navigate("/receive-money")
+        }else if(item.label === "Payments"){
+          navigate("/transactions")
+        }else if(item.label === "Settings"){
+          navigate("/settings")
+        }
+  }}
                   className={`
                     w-full
                     flex

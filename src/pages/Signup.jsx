@@ -48,13 +48,23 @@ export default function Signup() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user; 
       /* Save the user's details in Firestore*/
-       await addDoc(accountDetailsCollection, { 
-        uid: user.uid, 
-        Firstname: firstName, 
-        Lastname: lastName,
-         email: user.email, });
+ const accountNumber = Math.floor(
+  1000000000 + Math.random() * 9000000000
+).toString(); 
+const accountDoc = await addDoc(accountDetailsCollection, {
+  uid: user.uid,
+  Firstname: firstName,
+  Lastname: lastName,
+  email: user.email,
+  accNo: accountNumber,
+  account: 50000, // Demo starting balance: ₦50,000
+});
+
+console.log("Firestore document ID:", accountDoc.id);
+
+
       // Temporary demo navigation
-    navigate("/dashboard");
+    navigate("/login");
     } catch (error) {
   setError(error.message);
   setLoading(false)

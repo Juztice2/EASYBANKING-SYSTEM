@@ -1,23 +1,28 @@
-import { Navigate } from "react-router-dom";
+
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute() {
   const { currentUser, loading } = useAuth();
 
-  // Firebase is still checking the user
+  // Wait for Firebase to check the user's authentication state
   if (loading) {
-    return( 
-    
-       <p className="justify-self-center text-lg text-green-700 font-poppins">Load...</p>
-    ) 
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <p className="text-lg text-green-700 font-poppins">
+          Loading...
+        </p>
+      </div>
+    );
   }
 
-  // Firebase finished checking and there is no user
+  // Redirect unauthenticated users to the login page
   if (!currentUser) {
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/login" replace />;
   }
 
-  return children;
+  // Render the protected route
+  return <Outlet />;
 }
 
 export default ProtectedRoute;

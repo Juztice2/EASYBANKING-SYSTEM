@@ -11,13 +11,14 @@ import BalanceCard from "../components/dashboard/BalanceCard";
 import QuickActions from "../components/dashboard/QuickActions";
 import Transactions from "../components/dashboard/Transactions";
 import SpendingChart from "../components/dashboard/SpendingChart";
-import Details from "../components/dashboard/Details";
+import { useAuth } from "../context/AuthContext";
 
 export default function Dashboard() {
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  const{details} = useAuth()
+  
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-slate-50 flex font-poppins">
       <Sidebar
         mobileOpen={mobileOpen}
         setMobileOpen={setMobileOpen}
@@ -39,7 +40,7 @@ export default function Dashboard() {
             </p>
 
             <h1 className="text-lg font-bold text-slate-900">
-              William
+              {details?.Lastname}
             </h1>
           </div>
 
@@ -56,12 +57,14 @@ export default function Dashboard() {
 
             <div className="flex items-center gap-3 pl-3 border-l border-slate-200">
               <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
-                WJ
+                {
+                  details?.Firstname[0] + details?.Lastname[0]
+                }
               </div>
 
               <div className="hidden md:block font-poppins">
                 <p className="text-sm font-semibold text-slate-800">
-                  William Justice
+                  {details?.Lastname}
                 </p>
 
                 <p className="text-xs text-slate-400">
@@ -86,7 +89,7 @@ export default function Dashboard() {
             </p>
 
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mt-1 font-poppins">
-              Good afternoon, William 👋
+              Good afternoon, {details?.Lastname} 👋
             </h2>
 
             <p className="text-slate-500 mt-2">
@@ -111,9 +114,6 @@ export default function Dashboard() {
           {/* Transactions */}
           <div className="mt-8">
             <Transactions />
-          </div>
-          <div className="mt-8">
-            <Details />
           </div>
         </div>
       </main>

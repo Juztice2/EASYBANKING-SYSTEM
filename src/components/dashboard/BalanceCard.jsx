@@ -1,9 +1,29 @@
 import { Eye, EyeOff, TrendingUp } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 
 export default function BalanceCard() {
   const [showBalance, setShowBalance] = useState(true);
-
+  const { details, loading, error} = useAuth();
+  const [msg, setMsg] = useState('')
+    const formattedAmount = Number(details?.account).toLocaleString(
+      "en-NG",
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }
+    );
+  
+  try {
+   if (loading) {
+    return <p>Loading account details...</p>;
+  } 
+     if (error) {
+    return <p>{ error}</p>;
+  }
+  } catch (error) {
+  setMsg(error.message)
+  }
   return (
     <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#061936] via-[#0b2d68] to-[#1557c7] p-7 text-white shadow-xl shadow-blue-900/10">
       {/* Background decoration */}
@@ -14,7 +34,6 @@ export default function BalanceCard() {
           <p className="text-blue-100 text-sm">
             Total Balance
           </p>
-
           <button
             onClick={() => setShowBalance(!showBalance)}
             className="text-blue-100 hover:text-white transition"
@@ -24,8 +43,8 @@ export default function BalanceCard() {
         </div>
 
         <div className="mt-3">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            {showBalance ? "₦1,240,500.00" : "₦••••••••"}
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight font-poppins">
+           $ {showBalance ? formattedAmount : "••••••••"}
           </h2>
         </div>
 

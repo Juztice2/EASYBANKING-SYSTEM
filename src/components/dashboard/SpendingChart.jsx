@@ -7,7 +7,7 @@ export default function SpendingChart() {
     <div className="bg-white border border-slate-200 rounded-3xl p-6">
       <div className="flex justify-between items-start">
         <div>
-          <h2 className="text-lg font-bold text-slate-900">
+          <h2 className="text-lg font-bold text-slate-900 font-poppins">
             Monthly Spending
           </h2>
 
@@ -23,7 +23,7 @@ export default function SpendingChart() {
 
       <div className="mt-7">
         <p className="text-3xl font-bold text-slate-900">
-          ₦184,500
+          $184,500
         </p>
 
         <p className="text-xs text-emerald-600 font-medium mt-2">

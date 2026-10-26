@@ -68,6 +68,7 @@ async function handleConfirm() {
     setLoading(false);
   }
 }
+
   return (
     <div>
       <div className="text-center">
@@ -90,11 +91,11 @@ async function handleConfirm() {
         </p>
 
         <h3 className="text-3xl font-bold text-slate-900 mt-2">
-          ₦{formattedAmount}
+          ${formattedAmount}
         </h3>
 
         <p className="text-xs text-slate-400 mt-2">
-          Demonstration only · No real funds transferred
+           Updated . Real Transaction
         </p>
       </div>
 
@@ -164,7 +165,7 @@ async function handleConfirm() {
 
         <p className="text-xs text-amber-800 leading-relaxed">
           Confirm only if the displayed details are correct. This screen
-          simulates confirmation and does not contact a bank or initiate
+          simulates confirmation and does contact a bank to initiate
           a real transaction.
         </p>
       </div>

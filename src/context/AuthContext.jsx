@@ -47,6 +47,37 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
+  const refreshAccountDetails = async () => {
+  if (!auth.currentUser) return;
+
+  try {
+    const userQuery = query(
+      accountDetailsCollection,
+      where("uid", "==", auth.currentUser.uid),
+      limit(1)
+    );
+
+    const snapshot = await getDocs(userQuery);
+
+    if (!snapshot.empty) {
+      const accountDoc = snapshot.docs[0];
+
+      setDetails({
+        id: accountDoc.id,
+        ...accountDoc.data(),
+      });
+
+      setError("");
+    } else {
+      setDetails(null);
+      setError("Unable to retrieve user details.");
+    }
+  } catch (err) {
+    console.error("Error refreshing account details:", err);
+    setError("Unable to refresh account details.");
+  }
+};
+
   // Fetch the authenticated user's account details
   useEffect(() => {
     if (authLoading) return;
@@ -113,6 +144,7 @@ export function AuthProvider({ children }) {
     authLoading,
     detailsLoading,
     loading: authLoading || detailsLoading,
+    refreshAccountDetails,
   };
 
   return (

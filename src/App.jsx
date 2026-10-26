@@ -11,6 +11,8 @@ import ReceiveMoney from "./pages/RecieveMoney";
 import MyCards from "./pages/MyCards";
 import Settings from "./pages/Settings";
 import PageLoader from "./components/PageLoader";
+import BusinessBanking from "./pages/BusinessBanking";
+import Savings from "./pages/Savings";
 
 function App() {
   const {loading, currentUser} = useAuth();
@@ -26,24 +28,33 @@ if(loading){
     
      <Routes>
   {/* Public Routes */}
-  <Route
+ 
+ <Route
     path="/"
-    element={currentUser ? <Navigate to="/dashboard" replace /> : <Home />}
+    element={currentUser? <Navigate to="login" replace /> : <Home />}
   />
-
   <Route
-    path="/home"
-    element={currentUser ? <Navigate to="/dashboard" replace /> : <Home />}
-  />
+    path="home"
+    element= {<Home /> }/>
+   <Route
+    path="login"
+    element= {<Login /> }/>
 
-  <Route
-    path="/login"
-    element={currentUser ? <Navigate to="/dashboard" replace /> : <Login />}
-  />
+     <Route
+    path="business-banking"
+    element= {<BusinessBanking /> }/>
+   
+    <Route
+    path="cards"
+    element= {<MyCards /> }/>
+    
+    <Route
+    path="savings"
+    element= {<Savings /> }/>
 
-  <Route
-    path="/signup"
-    element={currentUser ? <Navigate to="/dashboard" replace /> : <Signup />}
+   <Route
+    path="signup"
+    element={currentUser? <Navigate to="login" replace /> : <Signup />}
   />
 
   {/* Protected Routes */}

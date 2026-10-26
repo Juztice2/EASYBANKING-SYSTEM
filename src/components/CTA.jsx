@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 export default function CTA() {
   return (
-    <section className="bg-gradient-to-r from-[#061936] to-[#1456c7] text-white overflow-hidden">
+    <section className="bg-gradient-to-r from-[#061936] to-[#1456c7] text-white overflow-hidden font-poppins">
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
 
@@ -22,9 +24,8 @@ export default function CTA() {
             </p>
 
           </div>
-
          <button className=" group bg-blue-500 hover:bg-blue-400 text-white px-7 py-4 rounded-full font-semibold transition-all duration-300 shadow-lg shadow-blue-900/30 hover:shadow-blue-500/40 hover:-translate-y-1">
-  Open an Account
+ <Link to='/signup'> Open an Account </Link>
 
   <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform">
     →

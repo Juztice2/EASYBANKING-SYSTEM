@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Menu,
   Bell,
@@ -9,20 +9,31 @@ import {
 import Sidebar from "../components/dashboard/Sidebar";
 import BalanceCard from "../components/dashboard/BalanceCard";
 import QuickActions from "../components/dashboard/QuickActions";
-import Transactions from "../components/dashboard/Transactions";
+import TransactionHistory from "../components/dashboard/TransactionHistory";
 import SpendingChart from "../components/dashboard/SpendingChart";
 import { useAuth } from "../context/AuthContext";
 import PageLoader from "../components/PageLoader";
-
 export default function Dashboard() {
+  const date = new Date();
+
+const formattedDate = date.toLocaleString("en-NG", {
+  day: "2-digit",
+  month: "long",
+  weekday: "long",
+  year: "numeric",
+});
   const [mobileOpen, setMobileOpen] = useState(false);
    const {
     currentUser,
     details,
     authLoading,
     detailsLoading,
+    refreshAccountDetails
   } = useAuth();
-
+   
+  useEffect(() => {
+    refreshAccountDetails();
+  }, []);
   if (authLoading || detailsLoading) {
     return <PageLoader />;
   }
@@ -108,11 +119,11 @@ export default function Dashboard() {
           {/* Greeting */}
           <div className="mb-8">
             <p className="text-sm text-slate-500">
-              Wednesday, October 7, 2026
+              {formattedDate}
             </p>
 
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mt-1 font-poppins">
-              Good afternoon, {details?.Lastname} 👋
+              Good day, {details?.Lastname} 👋
             </h2>
 
             <p className="text-slate-500 mt-2">
@@ -136,7 +147,7 @@ export default function Dashboard() {
 
           {/* Transactions */}
           <div className="mt-8">
-            <Transactions />
+            <TransactionHistory />
           </div>
         </div>
       </main>

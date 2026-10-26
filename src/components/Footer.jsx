@@ -13,12 +13,12 @@ export default function Footer() {
 
               <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center">
                 <span className="font-bold text-xl">
-                  N
+                  E
                 </span>
               </div>
 
               <span className="text-xl font-bold">
-                NOVABANK
+                EASYBANK
               </span>
 
             </div>

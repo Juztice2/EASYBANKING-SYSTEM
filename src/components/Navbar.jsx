@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import favicon from '../images/favicon.png'
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -9,13 +10,15 @@ export default function Navbar() {
         <div className="h-20 flex items-center justify-between">
 
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 font-raleway">
             <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center">
-              <span className="text-white font-bold  font-bebas text-xl">E</span>
+              <span className="text-white font-bold  text-xl">
+                <img src={favicon} />
+              </span>
             </div>
 
-            <span className="text-xl text-slate-900 font-bebas tracking-[0 25em]">
-            EASYSAVINGS
+            <span className="text-2xl text-slate-900 font-poppins tracking-tighter">
+            
             </span>
           </div>
 
@@ -25,15 +28,16 @@ export default function Navbar() {
               href="#"
               className="text-sm font-medium text-blue-600"
             >
-              Personal
+             <Link to='/signup'>Personal </Link>
             </a>
 
             <a
-              href="#"
+              href="#banking-solution"
               className="text-sm font-medium text-slate-600 hover:text-blue-4
               200 transition"
             >
               Business
+              
             </a>
 
             <a

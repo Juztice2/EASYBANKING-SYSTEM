@@ -18,6 +18,33 @@ export default function TransferSuccess({
       maximumFractionDigits: 2,
     }
   );
+const transactions = JSON.parse(
+localStorage.getItem("transaction") || "[]"
+);
+
+const newTransaction = {
+...transfer,
+reference,
+amount: Number(transfer.amount),
+date: new Date().toISOString(),
+type: "transfer",
+status: "Completed",
+};
+
+// Prevent saving the same reference twice
+const alreadyExists = transactions.some(
+(transaction) => transaction.reference === reference
+);
+
+if (!alreadyExists) {
+transactions.push(newTransaction);
+
+localStorage.setItem(
+"transaction",
+JSON.stringify(transactions)
+);
+}
+
 
   return (
     <div className="text-center">
@@ -26,26 +53,26 @@ export default function TransferSuccess({
       </div>
 
       <p className="text-sm font-semibold text-emerald-600 mt-6">
-        Demo completed
+        Transfer completed
       </p>
 
       <h2 className="text-3xl font-bold text-slate-900 mt-2">
-        Transfer simulated!
+        Transfer succcessfull!
       </h2>
 
       <p className="text-slate-500 mt-3 leading-relaxed">
-        Your demo transfer has been recorded on this screen.
-        No real money was sent.
+        Your bank transfer has been recorded on this screen.
+        The money was sent.
       </p>
 
       <div className="rounded-2xl border border-slate-200 mt-8 p-6 text-left">
         <div className="text-center border-b border-slate-100 pb-5">
           <p className="text-sm text-slate-500">
-            Simulated transfer amount
+             Transfer amount
           </p>
 
           <p className="text-3xl font-bold text-slate-900 mt-2">
-            ₦{formattedAmount}
+            ${formattedAmount}
           </p>
         </div>
 
@@ -82,7 +109,7 @@ export default function TransferSuccess({
 
           <div className="flex justify-between gap-4 text-sm">
             <span className="text-slate-500">
-              Demo reference
+              Transaction reference
             </span>
 
             <span className="font-mono text-xs text-slate-700 break-all text-right">
@@ -96,7 +123,7 @@ export default function TransferSuccess({
             </span>
 
             <span className="font-semibold text-emerald-600">
-              Simulated
+              Successfull!
             </span>
           </div>
         </div>

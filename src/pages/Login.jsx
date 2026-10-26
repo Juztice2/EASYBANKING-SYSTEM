@@ -18,18 +18,6 @@ export default function Login() {
    const [loading, setLoading] = useState(false);
    const [msg, setMsg] = useState('')
 
-  /*const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  function handleChange(e) {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  }*/
-
   const handleSubmit = async (e) => {
   e.preventDefault();
   if(!email || !password){
@@ -56,11 +44,11 @@ export default function Login() {
         <div className="relative z-10 p-16 flex flex-col justify-between w-full">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 w-fit">
+          <Link to="/home" className="flex items-center gap-2 w-fit">
 
             <div className="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center">
               <span className="text-xl font-bold">
-                
+               E 
               </span>
             </div>
 
@@ -92,7 +80,7 @@ export default function Login() {
           </div>
 
           <p className="text-blue-200 text-sm">
-            © 2026 NOVABANK. All rights reserved.
+            © 2026 EASYBANK. All rights reserved.
           </p>
 
         </div>
@@ -110,12 +98,12 @@ export default function Login() {
 
               <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white">
                 <span className="text-xl font-bold">
-                  N
+                  E
                 </span>
               </div>
 
               <span className="text-xl font-bold text-slate-900">
-                NOVABANK
+                EASYBANK
               </span>
 
             </Link>

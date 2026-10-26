@@ -6,7 +6,9 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Reveal from "./Reveal";
+import { useNavigate } from "react-router-dom";
 export default function BankingSolutions() {
+  const navigate = useNavigate()
   const services = [
     {
       icon: UserRound,
@@ -71,7 +73,6 @@ export default function BankingSolutions() {
 
           {services.map((service, index) => {
             const Icon = service.icon;
-
             return (
                <Reveal
         key={index}
@@ -95,7 +96,21 @@ export default function BankingSolutions() {
                   {service.description}
                 </p>
 
-                <button className="flex items-center gap-2 text-blue-600 text-sm font-semibold mt-6 group-hover:gap-3 transition-all">
+                <button className="flex items-center gap-2 text-blue-600 text-sm font-semibold mt-6 group-hover:gap-3 transition-all"
+                
+           key={service.title}
+            onClick={() => {
+              if (service.title === "Business Banking") {
+             navigate("/business-banking");
+        }else if (service.title === "Cards") {
+             navigate("/cards");
+        }else if (service.title === "Savings") {
+             navigate("/savings");
+        }else if (service.title === "Personal Account") {
+             navigate("/signup");
+        }
+  }}
+                >
                   Learn more
                   <ArrowRight size={16} />
                 </button>

@@ -59,7 +59,7 @@ export default function SendMoney() {
             </div>
 
             <span className="font-bold text-slate-900 tracking-tight">
-              EASYSAVINGS
+              EASYBANK
             </span>
           </div>
         </div>
@@ -163,7 +163,7 @@ export default function SendMoney() {
 
           <div className="flex justify-center items-center gap-2 text-xs text-slate-400 mt-6">
             <ShieldCheck size={16} />
-            <span>Demo environment — no real transactions</span>
+            <span>Real environment — real transactions</span>
           </div>
         </div>
       </main>

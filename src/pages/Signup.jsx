@@ -26,20 +26,6 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
  
 
- /* const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
-  function handleChange(e) {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  }*/
   const handleSubmit = async(e) => { 
     e.preventDefault();
       try { 
@@ -68,19 +54,6 @@ console.log("Firestore document ID:", accountDoc.id);
     } catch (error) {
   setError(error.message);
   setLoading(false)
-    } 
-  }
-
-    const signInWithGoogle = async(e) => { 
-    e.preventDefault();
-  setError("");
-      try { 
-        setLoading(true);
-      await signInWithPopup(auth, googleProvider);
-      // Temporary demo navigation
-    navigate("/dashboard");
-    } catch (error) {
-  setError(error.message);
     } 
   }
 
@@ -362,11 +335,6 @@ console.log("Firestore document ID:", accountDoc.id);
             </Link>
 
           </p>
-          <div className="justify-self-center mt-3 font-poppins p-3 px-4">
-            <p>Sign In with</p>
-            <button onClick={signInWithGoogle} className="text-2xl">
-              <span className="text-red-600">G</span>mail</button>
-          </div>
         </div>
       </div>
     </div>

@@ -13,6 +13,11 @@ import Settings from "./pages/Settings";
 import PageLoader from "./components/PageLoader";
 import BusinessBanking from "./pages/BusinessBanking";
 import Savings from "./pages/Savings";
+import CustomerSupport from "./pages/CustomerSupport";
+import SupportDashboard from "./pages/SupportDashboard";
+import SupportAgentRoute from "./components/SupportAgentRoute";
+import AccountRestricted from "./pages/AccountRestricted";
+
 
 function App() {
   const {loading, currentUser} = useAuth();
@@ -43,7 +48,10 @@ if(loading){
      <Route
     path="business-banking"
     element= {<BusinessBanking /> }/>
-   
+    
+      <Route
+    path="customer-support"
+    element= {<CustomerSupport /> }/>
     <Route
     path="cards"
     element= {<MyCards /> }/>
@@ -51,11 +59,16 @@ if(loading){
     <Route
     path="savings"
     element= {<Savings /> }/>
+    
+    <Route 
+     path="/account-restricted"
+      element={<AccountRestricted />}/>
 
    <Route
     path="signup"
     element={currentUser? <Navigate to="login" replace /> : <Signup />}
   />
+  
 
   {/* Protected Routes */}
   <Route element={<ProtectedRoute />}>
@@ -64,6 +77,9 @@ if(loading){
     <Route path="/receive-money" element={<ReceiveMoney />} />
     <Route path="/my-cards" element={<MyCards />} />
     <Route path="/settings" element={<Settings />} />
+    <Route path="/support-agent" element={  <SupportAgentRoute>
+      <SupportDashboard />
+    </SupportAgentRoute>} />
   </Route>
 
   {/* Unknown Routes */}

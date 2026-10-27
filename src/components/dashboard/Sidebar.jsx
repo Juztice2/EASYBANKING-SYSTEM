@@ -7,6 +7,7 @@ import {
   Settings,
   LogOut,
   X,
+  Headset,
 } from "lucide-react";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
@@ -38,6 +39,10 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
     {
       label: "Settings",
       icon: Settings,
+    },
+    {
+      label: "Customer Support",
+      icon: Headset,
     },
   ];
    const logOut = async() => { 
@@ -118,6 +123,8 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
           navigate("/transactions")
         }else if(item.label === "Settings"){
           navigate("/settings")
+        }else if(item.label === "Customer Support"){
+          navigate("/customer-support")
         }
   }}
                   className={`

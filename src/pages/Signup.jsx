@@ -43,6 +43,7 @@ const accountDoc = await addDoc(accountDetailsCollection, {
   Lastname: lastName,
   email: user.email,
   accNo: accountNumber,
+  status: "active",
   account: 50000, // Demo starting balance: ₦50,000
 });
 

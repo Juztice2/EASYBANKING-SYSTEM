@@ -3,6 +3,7 @@ import {
   useContext,
   useState,
   useEffect,
+  useCallback,
 } from "react";
 
 import {
@@ -10,10 +11,12 @@ import {
   query,
   where,
   limit,
+  doc,
+  onSnapshot,
 } from "firebase/firestore";
 
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { accountDetailsCollection } from "../pages/Signup";
 
 const AuthContext = createContext(undefined);
@@ -29,7 +32,7 @@ export function AuthProvider({ children }) {
   const [authLoading, setAuthLoading] = useState(true);
   const [detailsLoading, setDetailsLoading] = useState(false);
 
-  // Monitor Firebase authentication
+  // Monitor Firebase authentication.
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
@@ -47,38 +50,44 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  const refreshAccountDetails = async () => {
-  if (!auth.currentUser) return;
+  // Retrieve the current user's account document.
+  const refreshAccountDetails = useCallback(async () => {
+    const user = auth.currentUser;
 
-  try {
-    const userQuery = query(
-      accountDetailsCollection,
-      where("uid", "==", auth.currentUser.uid),
-      limit(1)
-    );
-
-    const snapshot = await getDocs(userQuery);
-
-    if (!snapshot.empty) {
-      const accountDoc = snapshot.docs[0];
-
-      setDetails({
-        id: accountDoc.id,
-        ...accountDoc.data(),
-      });
-
-      setError("");
-    } else {
+    if (!user) {
       setDetails(null);
-      setError("Unable to retrieve user details.");
+      return;
     }
-  } catch (err) {
-    console.error("Error refreshing account details:", err);
-    setError("Unable to refresh account details.");
-  }
-};
 
-  // Fetch the authenticated user's account details
+    try {
+      const userQuery = query(
+        accountDetailsCollection,
+        where("uid", "==", user.uid),
+        limit(1)
+      );
+
+      const snapshot = await getDocs(userQuery);
+
+      if (!snapshot.empty) {
+        const accountDoc = snapshot.docs[0];
+
+        setDetails({
+          id: accountDoc.id,
+          ...accountDoc.data(),
+        });
+
+        setError("");
+      } else {
+        setDetails(null);
+        setError("Unable to retrieve user details.");
+      }
+    } catch (err) {
+      console.error("Error refreshing account details:", err);
+      setError("Unable to refresh account details.");
+    }
+  }, []);
+
+  // Fetch account details when the authenticated user changes.
   useEffect(() => {
     if (authLoading) return;
 
@@ -114,13 +123,13 @@ export function AuthProvider({ children }) {
             ...accountDoc.data(),
           });
         } else {
-          setError(
-            "Unable to retrieve user details. Please check your account or network connection."
-          );
+          setDetails(null);
+          setError("Unable to retrieve user details.");
         }
       } catch (err) {
         if (!cancelled) {
-          console.error("Error fetching user details:", err);
+          console.error("Error fetching account details:", err);
+          setDetails(null);
           setError("Unable to retrieve user details.");
         }
       } finally {
@@ -137,6 +146,40 @@ export function AuthProvider({ children }) {
     };
   }, [currentUser, authLoading]);
 
+  // Monitor account status in real time.
+  useEffect(() => {
+    if (!currentUser || !details?.id) return;
+
+    const accountRef = doc(db, "Account", details.id);
+
+    const unsubscribe = onSnapshot(
+      accountRef,
+      (snapshot) => {
+        if (!snapshot.exists()) {
+          setDetails(null);
+          setError("Your account record could not be found.");
+          return;
+        }
+
+        const accountData = snapshot.data();
+
+        setDetails({
+          id: snapshot.id,
+          ...accountData,
+        });
+      },
+      (err) => {
+        console.error("Account status monitoring failed:", err);
+        setError("Unable to verify your account status.");
+      }
+    );
+
+    return unsubscribe;
+  }, [currentUser, details?.id]);
+
+  const accountStatus = details?.status || "active";
+  const isAccountDisabled = accountStatus === "disabled";
+
   const value = {
     currentUser,
     details,
@@ -145,6 +188,8 @@ export function AuthProvider({ children }) {
     detailsLoading,
     loading: authLoading || detailsLoading,
     refreshAccountDetails,
+    accountStatus,
+    isAccountDisabled,
   };
 
   return (
